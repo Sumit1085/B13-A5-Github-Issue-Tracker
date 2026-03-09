@@ -38,6 +38,8 @@ let cardClass = ''
                 </div>
        `
         cardContainer.append(div)
+//  signleProblem(data.status)
+        
     });
     
 
@@ -82,10 +84,28 @@ function buttonClick(name){
         btn.classList.add('btn-primary')
     })
     name.classList.remove('btn-primary')
-}
-
-
-const buttons = document.querySelectorAll('#buttons button')
-function buttonclick(){
+    // console.log(name.innerText)
+    if(name.innerText==='Open'){
+        loadOpenIssue()
+    }
+    else if(name.innerText==='Closed'){
+        loadCloseIssue()
+    }else if(name.innerText==='All'){
+        loadAllIssue()
+    }
     
 }
+
+async function loadOpenIssue() {
+    const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
+    const data = await res.json();
+    const openData = data.data.filter(err => err.status === 'open')
+    displayLoadAllIssue(openData)
+}  
+async function loadCloseIssue() {
+    const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
+    const data = await res.json();
+    const closeData = data.data.filter(err => err.status === 'closed')
+    displayLoadAllIssue(closeData)
+}  
+
