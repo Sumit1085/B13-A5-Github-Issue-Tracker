@@ -1,9 +1,11 @@
 const totalIssue = document.getElementById('totalIssue');
 
 async function loadAllIssue() {
+     manageSpinner(true)
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
     const data = await res.json();
     displayLoadAllIssue(data.data)
+   
 }  
 loadAllIssue()
 
@@ -41,7 +43,7 @@ let cardClass = ''
 //  signleProblem(data.status)
         
     });
-    
+    manageSpinner(false)
 
 }
 
@@ -147,4 +149,19 @@ function displaysingleProblem(data){
     document.getElementById('word_modal').showModal();
 }
 
+// Spinner
+function manageSpinner(status){
+    if(status){
+        document.getElementById("spinner").classList.remove('hidden')
+        document.getElementById('cards-container').classList.add('hidden')
+    }else{
+        document.getElementById("spinner").classList.add('hidden')
+        document.getElementById('cards-container').classList.remove('hidden')
+    }
+}
 
+document.getElementById('btn-search').addEventListener('click', function(){
+    const inputSearch= document.getElementById('input-search');
+    const searchValue = inputSearch.value;
+    console.log(searchValue)
+})

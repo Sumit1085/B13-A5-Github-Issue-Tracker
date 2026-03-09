@@ -23,8 +23,8 @@
             <a class="btn btn-ghost text-xl"><img class="w-9" src="./assets/github-logo.png" alt="">GitHub Issues Tracker</a>
         </div>
         <div class="flex gap-2">
-            <input type="text" class="rounded-sm border-[#bdc3c7] pl-4" placeholder=" Search issues..." class="input input-bordered w-24 md:w-auto" />
-            <button class="btn btn-primary"> + New Issue</button>
+            <input id="input-search" type="text" class="rounded-sm border-[#bdc3c7] pl-4" placeholder=" Search issues..." class="input input-bordered w-24 md:w-auto" />
+            <button id="btn-search" class="btn btn-primary"> + New Issue</button>
         </div>
     </div>
 
@@ -52,6 +52,11 @@
                     <p><i class="fa-solid fa-circle text-[#A855F7]"></i>  Closed</p>
                 </div>
             </div>
+
+            <section id="spinner" class="flex justify-center py-10 hidden">
+                <span class="loading loading-bars loading-xl"></span>
+
+            </section>
 
             <div id="cards-container" class="p-5 mt-5 bg-white grid grid-cols-4 shadow space-y-2">
 
