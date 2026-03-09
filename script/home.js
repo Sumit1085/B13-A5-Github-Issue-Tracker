@@ -162,6 +162,14 @@ function manageSpinner(status){
 
 document.getElementById('btn-search').addEventListener('click', function(){
     const inputSearch= document.getElementById('input-search');
-    const searchValue = inputSearch.value;
-    console.log(searchValue)
+    const searchValue = inputSearch.value.trim().toLowerCase();
+    
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`)
+    .then(res => res.json())
+    .then(data => {
+        const allIssue = data.data;
+        const filterIssue = allIssue.filter(issue => issue.title.toLowerCase().includes(searchValue))
+        console.log(filterIssue)
+        displayLoadAllIssue(filterIssue)
+    })
 })
