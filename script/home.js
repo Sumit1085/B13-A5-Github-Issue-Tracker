@@ -20,7 +20,7 @@ let cardClass = ''
 }
        const div = document.createElement('div');
        div.innerHTML = `
-        <div class="card bg-base-100 shadow-lg h-full mx-2 overflow-hidden">
+        <div onclick="singleProblem(${data.id})" class="card bg-base-100 shadow-lg h-full mx-2 overflow-hidden">
                     <div class="card-body ${cardClass}">
                         <div class="card-status flex items-center">
                             <img class="" src="${data.status === 'open' ? './assets/Open-Status.png' : './assets/Closed-Status.png'}" alt="">
@@ -81,9 +81,9 @@ const createElement = (arr) => {
 function buttonClick(name){
     const button = document.querySelectorAll('.buttons button')
     button.forEach(btn=>{
-        btn.classList.add('btn-primary')
+        btn.classList.remove('btn-primary')
     })
-    name.classList.remove('btn-primary')
+    name.classList.add('btn-primary')
     // console.log(name.innerText)
     if(name.innerText==='Open'){
         loadOpenIssue()
@@ -108,4 +108,43 @@ async function loadCloseIssue() {
     const closeData = data.data.filter(err => err.status === 'closed')
     displayLoadAllIssue(closeData)
 }  
+
+async function singleProblem(id){
+    const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+    const res = await fetch(url);
+    const data = await res.json()
+    displaysingleProblem(data.data)
+}
+
+function displaysingleProblem(data){
+    console.log(data)
+    const detailBox = document.getElementById('detail-container');
+    detailBox.innerHTML =  `
+        <h2 class='text-2xl font-bold'>${data.title}</h2>
+                <div class='flex justify-start items-center gap-5 my-2'>
+                    <p class="bg-[#00A96E] px-2 py-1 rounded-full w-[62px] text-center text-white">${data.status}</p>
+                    <p>Opened by ${data.author}</p>
+                    <p>${new Date(data.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class=''>
+                    <p>${createElement(data.labels)}</p>
+                </div>
+                
+                <p class='text-[16px] text-[#64748B] my-6'>${data.description}</p>
+
+                <div class='bg-[#F8FAFC] p-5 flex justify-between'>
+                    <div>
+                        <p class='text-[#64748B] text-[16px]'>Assignee:</p>
+                        <p class='font-semibold'>${data.assignee}</p>
+                    </div>
+                    <div>
+                        <p class='text-[#64748B] text-[16px]'>Priority:</p>
+                        <p class='font-semibold'>${data.priority}</p>
+                    </div>
+
+                </div>    
+    `
+    document.getElementById('word_modal').showModal();
+}
+
 
